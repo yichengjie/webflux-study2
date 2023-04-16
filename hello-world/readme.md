@@ -23,6 +23,6 @@
 2. 压测耗时接口
    ```text
    ab -c 1000 -n 100000 http://127.0.0.1:8080/webflux/sleep/50
-   Requests per second: 1409
-   Time per request: 709
+   Requests per second: 4627
+   Time per request: 216
    ```
