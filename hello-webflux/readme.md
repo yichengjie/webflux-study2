@@ -1,0 +1,28 @@
+1. 文档博客：https://juejin.cn/post/6844904138287874055 
+2. 压测工具：This is ApacheBench, Version 2.3 
+#### webmvc接口压测
+1. 压测简单接口
+    ```text
+    ab -c 1000 -n 100000 http://127.0.0.1:8080/webmvc/hello
+    Requests per second: 4552
+    Time per request: 219.68
+    ```
+2. 压测耗时接口
+   ```text
+   ab -c 1000 -n 100000 http://127.0.0.1:8080/webmvc/sleep/50
+   Requests per second: 3130
+   Time per request: 319
+   ```
+#### webflux接口压测
+1. 压测简单接口
+   ```text
+   ab -c 1000 -n 100000 http://127.0.0.1:8080/webflux/hello
+   Requests per second: 5524
+   Time per request: 181
+   ```
+2. 压测耗时接口
+   ```text
+   ab -c 1000 -n 100000 http://127.0.0.1:8080/webflux/sleep/50
+   Requests per second: 4627
+   Time per request: 216
+   ```
