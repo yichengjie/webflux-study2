@@ -22,7 +22,7 @@ public class HelloWebFluxController {
         return Mono.just("Hello") ;
     }
 
-    @GetMapping("/sleep/{duration}")
+    @GetMapping("/sleep/{time}")
     public Mono<String> sleep(@PathVariable("time") int time){
         return Mono.delay(Duration.ofMillis(time))
                 .thenReturn("Sleep " + time + "ms, Current Time:" + System.currentTimeMillis());
