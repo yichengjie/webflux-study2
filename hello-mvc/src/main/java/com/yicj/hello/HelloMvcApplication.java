@@ -5,13 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author: yicj
- * @date: 2023/4/16 19:17
+ * @date: 2023/4/16 21:36
  */
 @SpringBootApplication
-public class HelloWorldApplication {
+public class HelloMvcApplication {
 
     public static void main(String[] args) {
-
-        SpringApplication.run(HelloWorldApplication.class, args) ;
+        SpringApplication.run(HelloMvcApplication.class, args) ;
     }
 }

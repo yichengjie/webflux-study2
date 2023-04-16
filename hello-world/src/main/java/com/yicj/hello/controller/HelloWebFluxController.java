@@ -1,0 +1,30 @@
+package com.yicj.hello.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
+
+import java.time.Duration;
+
+/**
+ * @author: yicj
+ * @date: 2023/4/16 21:47
+ */
+@RestController
+@RequestMapping("/webflux")
+public class HelloWebFluxController {
+
+    @GetMapping("hello")
+    public Mono<String> webflux(){
+
+        return Mono.just("Hello") ;
+    }
+
+    @GetMapping("/sleep/duration")
+    public Mono<String> sleep(@PathVariable int duration){
+        return Mono.delay(Duration.ofMillis(duration))
+                .thenReturn("Sleep " + duration + "ms, Current Time:" + System.currentTimeMillis());
+    }
+}
