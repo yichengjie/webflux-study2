@@ -3,7 +3,7 @@ package com.yicj.hello;
 import com.yicj.hello.entity.User;
 import com.yicj.hello.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.util.StringUtils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
