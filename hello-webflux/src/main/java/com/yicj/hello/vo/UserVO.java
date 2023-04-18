@@ -1,19 +1,17 @@
-package com.yicj.hello.entity;
+package com.yicj.hello.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 /**
- * @author: yicj
- * @date: 2023/4/16 19:20
+ * @author yicj
+ * @date 2023年04月18日 14:24
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements Serializable {
+public class UserVO {
 
     /**
      * 姓名
@@ -23,5 +21,4 @@ public class User implements Serializable {
      * 描述
      */
     private String desc;
-
 }
