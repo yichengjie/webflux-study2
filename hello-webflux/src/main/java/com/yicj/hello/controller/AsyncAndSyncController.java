@@ -29,7 +29,10 @@ public class AsyncAndSyncController {
     @GetMapping("/async")
     public Mono<String> asyncMono(){
         log.info("sync method start");
+        // 类似这种同步的话，因为处理线程只有cpu * 2 个，则需要非常久的时间, 所以这种同步写法是致命错误
         // Mono<String> result = Mono.fromSupplier(this::execute);
+        // Mono<String> result = Mono.defer(()-> Mono.fromCallable(this::execute)) ;
+        // 后面这两种写法是正确的
         //Mono<String> result = Mono.fromSupplier(this::execute2).delayElement(Duration.ofMillis(2));
         Mono<String> result = Mono.delay(Duration.ofMillis(2)).thenReturn(this.execute2());
         log.info("sync method end");
