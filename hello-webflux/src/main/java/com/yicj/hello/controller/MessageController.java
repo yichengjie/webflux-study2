@@ -14,7 +14,6 @@ import reactor.core.publisher.Flux;
 @RequestMapping
 public class MessageController {
 
-
     @GetMapping("/")
     public Flux<Message> allMessage(){
         return Flux.just(
