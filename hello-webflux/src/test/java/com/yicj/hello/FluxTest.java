@@ -13,9 +13,12 @@ import reactor.core.publisher.Mono;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 
 /**
@@ -153,6 +156,66 @@ public class FluxTest {
         Flux<Integer> ints = Flux.range(1,4) ;
         ints.subscribe(new SampleSubscriber<>()) ;
     }
+
+    @Test
+    public void streamBuffer(){
+        Flux<Integer> ints = Flux.range(1, 40);
+        ints.buffer(3)
+                //.log()
+                .subscribe(val -> log.info("values : {}", val));
+    }
+
+    @Test
+    public void streamRetry(){
+        List<Double> nums = new ArrayList<>() ;
+        Mono<String> client = Mono.fromSupplier(() -> {
+            double num = Math.random();
+            nums.add(num) ;
+            if (nums.size() <= 2 && num > 0.01) {
+                throw new RuntimeException("Network issue");
+            }
+            return "https://www.baidu.com";
+        });
+        client
+            // .log()
+            .retry(3)
+            .subscribe(val -> log.info("value : {}", val),
+                    err -> log.info("error : {}", err.getMessage()),
+                    () -> log.info("completed")) ;
+        //log.info("value : {}, list : {}", blockValue, nums);
+    }
+
+    @Test
+    public void streamRetryOnFlux(){
+        Flux<Object> flux = Flux.generate(
+            AtomicLong::new,
+            (state, sink) -> {
+                long i = state.getAndIncrement();
+                sink.next(i);
+                if (i == 10) {
+                    sink.error(new RuntimeException("i don't like 10"));
+                }
+                return state;
+            },
+            state -> log.info("I'm done")
+        );
+        // ---------------------------
+        flux.log()
+            .retry(1)
+            .subscribe() ;
+    }
+
+
+    @Test
+    public void streamZip(){
+        Flux<Integer> fluxA = Flux.range(1, 4);
+        Flux<Integer> fluxB = Flux.range(5, 3);
+
+        fluxA.zipWith(fluxB, (a,b) -> a + b)
+                .log()
+                .subscribe() ;
+    }
+
 
     public class SampleSubscriber<T> extends BaseSubscriber<T>{
         @Override
