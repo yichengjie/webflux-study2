@@ -4,7 +4,9 @@ import com.yicj.hello.entity.User;
 import com.yicj.hello.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.reactivestreams.Subscription;
 import org.springframework.util.StringUtils;
+import reactor.core.publisher.BaseSubscriber;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -14,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
 
 /**
  * @author yicj
@@ -116,6 +119,54 @@ public class FluxTest {
             .subscribe(i -> log.info("value : {}", i),
                     err -> log.info("error : {}", err.getMessage(), err),
                     () -> log.info("subscription completed")) ;
+        // errorConsumer and complete consumer are mutually exclusive
+    }
+
+    @Test
+    public void subscribeWithSubscription(){
+        Flux<Integer> ints = Flux.range(1,4) ;
+        Consumer<? super Subscription> subscriptionConsumer1 = null ;
+        Consumer<? super Subscription> subscriptionConsumer2 = sub -> sub.request(3) ;
+        Consumer<? super Subscription> subscriptionConsumer3 = sub -> sub.request(5) ;
+        Consumer<? super Subscription> subscriptionConsumer4 = sub -> sub.cancel() ; // 不发布任何数据
+        Consumer<? super Subscription> subscriptionConsumer5 = sub -> sub.getClass() ; // no request
+
+        ints.log()
+            .subscribe(i -> {
+                        log.info("i = {}", i) ;
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    },
+                    null,
+                    () -> log.info("subscription completed"),
+                    subscriptionConsumer1) ;
+
+
+    }
+
+
+    @Test
+    public void subscribeWithBaseSubscriber(){
+        Flux<Integer> ints = Flux.range(1,4) ;
+        ints.subscribe(new SampleSubscriber<>()) ;
+    }
+
+    public class SampleSubscriber<T> extends BaseSubscriber<T>{
+        @Override
+        protected void hookOnSubscribe(Subscription subscription) {
+            //super.hookOnSubscribe(subscription);
+            log.info("subscribed");
+            request(1);
+        }
+
+        @Override
+        protected void hookOnNext(T value) {
+            log.info("i = {}", value);
+            request(1);
+        }
     }
 
 }
