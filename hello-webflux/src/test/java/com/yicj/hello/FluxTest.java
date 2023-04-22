@@ -103,4 +103,19 @@ public class FluxTest {
         // just发出的元素是在实例化时就准备好的
         // defer在有订阅时才发出元素。
     }
+
+    @Test
+    public void subscribeWithErrorConsumerAndCompleteConsumer(){
+        Flux.range(1,5)
+            .map(i -> {
+                if (i == 3){
+                    throw new RuntimeException("i = 3 抛出异常") ;
+                }
+                return i ;
+            })
+            .subscribe(i -> log.info("value : {}", i),
+                    err -> log.info("error : {}", err.getMessage(), err),
+                    () -> log.info("subscription completed")) ;
+    }
+
 }
