@@ -1,2 +1,9 @@
 server:
   port: 8080
+
+mytask:
+  pool:
+    corePoolSize: 10
+    maxPoolSize: 100
+    keepAliveSeconds: 200
+    queueCapacity: 100
