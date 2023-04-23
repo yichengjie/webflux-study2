@@ -23,7 +23,7 @@ import static org.mockito.ArgumentMatchers.anyString;
  */
 @Slf4j
 @WebFluxTest(value = SubscriptionController.class)
-public class SubscriptionControllerTest {
+public class SubscriptionControllerWebFluxTest {
 
     @MockBean
     private RSubscriptionService subscriptionService ;
