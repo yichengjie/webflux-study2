@@ -38,7 +38,7 @@ public class ExceptionController {
             throw new RuntimeException("李四1为非法用户，不支持搜索！");
         }
         return Flux.fromIterable(userList)
-                .concatMap(user -> Mono.just(new UserVO(user.getName(), user.getDesc())))
+                .concatMap(user -> Mono.just(new UserVO(user.getName(), user.getAddress())))
                 .filter(user -> user.getName().equals(name))
                 .next()
                 .switchIfEmpty(Mono.error(new AppException("4001", "未查询到用户 : " + name))) ;

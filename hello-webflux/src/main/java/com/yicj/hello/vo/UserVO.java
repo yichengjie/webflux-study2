@@ -13,12 +13,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserVO {
 
-    /**
-     * 姓名
-     */
-    private String name;
-    /**
-     * 描述
-     */
-    private String desc;
+    private String id ;
+
+    private String name ;
+
+    private String address ;
+
+    public UserVO(String name, String address){
+       this.name = name ;
+       this.address = address ;
+    }
+
 }

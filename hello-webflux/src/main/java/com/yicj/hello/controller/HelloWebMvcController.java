@@ -1,9 +1,11 @@
 package com.yicj.hello.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.client.WebClient;
 
 /**
  * @author: yicj
@@ -12,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/webmvc")
 public class HelloWebMvcController {
+
+    @Autowired
+    private WebClient webClient ;
 
     @GetMapping("/hello")
     public String mvc(){
@@ -28,5 +33,7 @@ public class HelloWebMvcController {
         }
         return "Sleep " + time + "ms, Current Time : " + System.currentTimeMillis() ;
     }
+
+
 
 }
