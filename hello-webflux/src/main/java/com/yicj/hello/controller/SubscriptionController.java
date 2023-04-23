@@ -1,12 +1,12 @@
 package com.yicj.hello.controller;
 
+import com.yicj.hello.entity.StockSubscription;
 import com.yicj.hello.entity.StockSymbol;
 import com.yicj.hello.service.RSubscriptionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
@@ -30,6 +30,12 @@ public class SubscriptionController {
                     .subscribe() ;
             return "redirect:/subscription?added=" + symbol.getSymbol() ;
         }) ;
+    }
+
+
+    @GetMapping("/subscriptions")
+    public Flux<StockSubscription> findByEmail(@RequestParam String email){
+        return subscriptionService.findByEmail(email) ;
     }
 
 }

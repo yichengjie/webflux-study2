@@ -1,5 +1,7 @@
 package com.yicj.hello.service;
 
+import com.yicj.hello.entity.StockSubscription;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -9,4 +11,6 @@ import reactor.core.publisher.Mono;
 public interface RSubscriptionService {
 
     Mono<Void> addSubscription(String name, String symbol) ;
+
+    Flux<StockSubscription> findByEmail(String email) ;
 }

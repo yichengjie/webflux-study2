@@ -35,20 +35,12 @@ public class StreamUnitTest {
                 .filter(i -> i %2 == 1)
                 .map(i -> i *10) ;
         Flux<Integer> errSource = source.concatWith(Mono.error(new RuntimeException("test ex")));
-        //
-        errSource.collectList()
-            .map(list -> {
-                        log.info("list : {}", list);
-                        log.info("----next --------");
-                        return "success" ;
-                    }).subscribe() ;
-        log.info("over ...");
-//        StepVerifier.create(errSource)
-//                .expectNext(10)
-//                .expectNextMatches(i -> i %10 == 0)
-//                .expectNext(50, 70)
-//                .expectComplete()
-//                .verify() ;
+        StepVerifier.create(errSource)
+                .expectNext(10)
+                .expectNextMatches(i -> i %10 == 0)
+                .expectNext(50, 70)
+                .expectErrorMatches(e -> e instanceof RuntimeException)
+                .verify() ;
     }
 
 
